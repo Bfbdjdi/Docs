@@ -1,17 +1,15 @@
-name: Documentation
-
-on: [push]
-
+# .github/workflows/deploy-wiki.yml
+name: deploy-wiki
+on:
+  push:
+    branches: "main"
+    paths: wiki/**
 jobs:
-  build:
+  deploy-wiki:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v1
-      # Additional steps to generate documentation in "Documentation" directory
-      - name: Upload Documentation to Wiki
-        uses: SwiftDocOrg/github-wiki-publish-action@v1
-        with:
-          path: "Documentation"
-        env:
-          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - uses: actions/checkout@v4
+      - uses: actions4gh/configure-wiki@v1
+      - uses: actions4gh/deploy-wiki@v1
